@@ -1,12 +1,15 @@
 ﻿using System;
+using tabuleiro;
 
 namespace xadrez_console
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("Hello World!");
+            Tabuleiro tab = new Tabuleiro(8, 8);
+
+            Tela.ImprimirTabuleiro(tab);
         }
     }
 }

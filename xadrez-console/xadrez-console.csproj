@@ -6,4 +6,8 @@
     <RootNamespace>xadrez_console</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="xadrez\" />
+  </ItemGroup>
+
 </Project>
