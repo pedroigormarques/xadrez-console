@@ -1,5 +1,6 @@
 ﻿using System;
 using tabuleiro;
+using xadrez;
 
 namespace xadrez_console
 {
@@ -7,9 +8,52 @@ namespace xadrez_console
     {
         static void Main()
         {
-            Tabuleiro tab = new Tabuleiro(8, 8);
+            try
+            {
+                PartidaDeXadrez partida = new PartidaDeXadrez();
 
-            Tela.ImprimirTabuleiro(tab);
+                while (!partida.Terminada)
+                {
+                    try
+                    {
+
+                        Console.Clear();
+                        Tela.ImprimirTabuleiro(partida.Tabuleiro);
+                        Console.WriteLine("\nTurno: " + partida.Turno);
+                        Console.WriteLine("Aguardando jogada: " + partida.JogadorAtual);
+
+                        Console.Write("\nOrigem: ");
+                        Posicao origem = Tela.LerPosicaoXadrez().ToPosicao();
+                        partida.ValidarPosicaoOrigem(origem);
+
+                        Console.Clear();
+                        bool[,] posicoesPossiveis = partida.Tabuleiro.GetPeca(origem).MovimentosPossiveis();
+                        Tela.ImprimirTabuleiro(partida.Tabuleiro, posicoesPossiveis);
+                        Console.WriteLine("\nTurno: " + partida.Turno);
+                        Console.WriteLine("Aguardando jogada: " + partida.JogadorAtual);
+
+                        Console.Write("\nDestino: ");
+                        Posicao destino = Tela.LerPosicaoXadrez().ToPosicao();
+                        partida.ValidarPosicaoDestino(origem, destino);
+
+                        partida.RealizarJogada(origem, destino);
+
+                    }
+                    catch (TabuleiroException erro)
+                    {
+                        Console.WriteLine(erro.Message);
+                        Console.ReadLine();
+                    }
+                }
+
+            }
+            catch (TabuleiroException erro)
+            {
+                Console.WriteLine("Erro: " + erro.Message);
+            }
+
+
+
         }
     }
 }
