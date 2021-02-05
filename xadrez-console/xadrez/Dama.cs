@@ -1,16 +1,17 @@
-﻿using tabuleiro;
+﻿
+using tabuleiro;
 
 namespace xadrez
 {
-    class Bispo : Peca
+    class Dama : Peca
     {
-        public Bispo(Tabuleiro tabuleiro, Cor cor) : base(tabuleiro, cor)
+        public Dama(Tabuleiro tabuleiro, Cor cor) : base(tabuleiro, cor)
         {
         }
 
         public override string ToString()
         {
-            return "B";
+            return "D";
         }
 
         public bool PodeMover(Posicao posicao)
@@ -24,7 +25,52 @@ namespace xadrez
             bool[,] matriz = new bool[Tabuleiro.Linhas, Tabuleiro.Colunas];
             Posicao posicao = new Posicao(0, 0);
 
-            //NE
+            //torre acima
+            posicao.DefinirValores(Posicao.Linha - 1, Posicao.Coluna);
+            while (Tabuleiro.PosicaoValida(posicao) && PodeMover(posicao))
+            {
+                matriz[posicao.Linha, posicao.Coluna] = true;
+                if (Tabuleiro.GetPeca(posicao) != null && Tabuleiro.GetPeca(posicao).Cor != Cor)
+                    break;
+
+                posicao.Linha--;
+            }
+
+            //torre abaixo
+            posicao.DefinirValores(Posicao.Linha + 1, Posicao.Coluna);
+            while (Tabuleiro.PosicaoValida(posicao) && PodeMover(posicao))
+            {
+                matriz[posicao.Linha, posicao.Coluna] = true;
+                if (Tabuleiro.GetPeca(posicao) != null && Tabuleiro.GetPeca(posicao).Cor != Cor)
+                    break;
+
+                posicao.Linha++;
+            }
+
+            //torre esquerda
+            posicao.DefinirValores(Posicao.Linha, Posicao.Coluna - 1);
+            while (Tabuleiro.PosicaoValida(posicao) && PodeMover(posicao))
+            {
+                matriz[posicao.Linha, posicao.Coluna] = true;
+                if (Tabuleiro.GetPeca(posicao) != null && Tabuleiro.GetPeca(posicao).Cor != Cor)
+                    break;
+
+                posicao.Coluna--;
+            }
+
+            //torre direita
+            posicao.DefinirValores(Posicao.Linha, Posicao.Coluna + 1);
+            while (Tabuleiro.PosicaoValida(posicao) && PodeMover(posicao))
+            {
+                matriz[posicao.Linha, posicao.Coluna] = true;
+                if (Tabuleiro.GetPeca(posicao) != null && Tabuleiro.GetPeca(posicao).Cor != Cor)
+                    break;
+
+                posicao.Coluna++;
+            }
+
+
+            //bispo NE
             posicao.DefinirValores(Posicao.Linha - 1, Posicao.Coluna + 1);
             while (Tabuleiro.PosicaoValida(posicao) && PodeMover(posicao))
             {
@@ -34,7 +80,7 @@ namespace xadrez
                 posicao.DefinirValores(posicao.Linha - 1, posicao.Coluna + 1);
             }
 
-            //SE
+            //bispo SE
             posicao.DefinirValores(Posicao.Linha + 1, Posicao.Coluna + 1);
             while (Tabuleiro.PosicaoValida(posicao) && PodeMover(posicao))
             {
@@ -44,7 +90,7 @@ namespace xadrez
                 posicao.DefinirValores(posicao.Linha + 1, posicao.Coluna + 1);
             }
 
-            //NO
+            //bispo NO
             posicao.DefinirValores(Posicao.Linha - 1, Posicao.Coluna - 1);
             while (Tabuleiro.PosicaoValida(posicao) && PodeMover(posicao))
             {
@@ -54,7 +100,7 @@ namespace xadrez
                 posicao.DefinirValores(posicao.Linha - 1, posicao.Coluna - 1);
             }
 
-            //SO
+            //bispo SO
             posicao.DefinirValores(Posicao.Linha + 1, Posicao.Coluna - 1);
             while (Tabuleiro.PosicaoValida(posicao) && PodeMover(posicao))
             {
@@ -63,6 +109,7 @@ namespace xadrez
                     break;
                 posicao.DefinirValores(posicao.Linha + 1, posicao.Coluna - 1);
             }
+
             return matriz;
         }
 
